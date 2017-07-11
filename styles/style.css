@@ -1,0 +1,25 @@
+.row,.container-fluid{
+    padding: 0px;
+    margin: 0px;
+}
+header{
+    background: red;
+}
+header div{
+    display: inline-block;
+}
+img{
+    border: 1px solig black;
+}
+aside{
+    background: lightseagreen;
+    /*height: 500px;*/
+}
+article{
+    background: lightsalmon;
+    /*height: 500px;*/
+}
+.paddingMarginOff{
+    margin: 0px;
+    padding: 0px;
+}
