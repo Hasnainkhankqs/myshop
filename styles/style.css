@@ -1,3 +1,6 @@
+body{
+    background: lightsalmon;
+}
 .row,.container-fluid{
     padding: 0px;
     margin: 0px;
@@ -13,13 +16,28 @@ img{
 }
 aside{
     background: lightseagreen;
-    /*height: 500px;*/
+   
 }
 article{
-    background: lightsalmon;
-    /*height: 500px;*/
+    background: lightsalmon !important;
+     padding-left:5% !important; 
+    
 }
 .paddingMarginOff{
     margin: 0px;
     padding: 0px;
+}
+.product_thumbnail{
+     height: 250px !important; 
+    background: #617d7f;
+    color:#fff;
+    margin: 20px !important;
+}
+.product_thumbnail img{
+    height:55%;
+}
+figcaption{
+    text-transform: uppercase;
+    color:#fff !important;
+
 }

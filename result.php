@@ -16,11 +16,6 @@ include('function/function.php');
     <link rel="stylesheet" href="styles/style.css">
 
     <title>My Shop</title>
-    <style>
-.cartfun{
-    background:lightslategray;
-}
-    </style>
 </head>
 
 <body>
@@ -72,11 +67,6 @@ include('function/function.php');
     </form>
   </div>
 </nav>
-<div class="row cartfun">
-<div class='col-md-12 text-right'>
-<h5>Welcome Guest ! Shoping cart - item <?php itemsum() ?>- price</h5>
-</div> 
-</div>
 <div class="row">
     
         <aside class="col-md-3">
@@ -104,16 +94,44 @@ include('function/function.php');
         </div>
         </div>
          </aside>
-    <?php cart(); ?>
+  
     <div class="col-md-9 paddingMarginOff">
         <div class="row">
             <article class="col-md-12 text-center paddingMarginOff">
                 <div class="row">
-
                     <?php 
-                        viewproduct();
-                        category();
-                        brand();
+                  
+    if(isset($_GET['search'])){
+    $user_query = $_GET["user_query"];
+    $displayProduct = "SELECT * FROM `products` where product_key like '%$user_query%'";
+    $run = mysqli_query($conn,$displayProduct);
+    $count = mysqli_num_rows($run);
+    
+    if($count == 0){
+    echo "<h3>For this keyword Product Not Available right now !!!</h3>";
+    }                       
+        else{
+                            while($row = mysqli_fetch_array($run)){
+                                $product_id = $row['product_id'];
+                                $product_title = $row['product_title'];
+                                $product_img1 = $row['product_img1'];
+                                $product_price = $row['product_price'];
+                            echo "<div class='col-md-3 product_thumbnail'>
+                        <figure class='figure'>
+                            <figcaption class='figure-caption'> $product_title </figcaption>
+                                <img src='admin_area/product_images/$product_img1' class='figure-img img-fluid  img-thumbnail' alt='A generic square placeholder image with rounded corners in a figure.'>
+                                <div>Price:<span>$ $product_price</span></div>
+                                <div>
+                                    <a href='detail.php?detail=$product_id' class='btn btn-primary btn-sm' >detail</a>
+                                    <a href='index.php?cart=$product_id' class='btn btn-success btn-sm' >Add Card</a>
+                                </div>
+                        </figure>
+                    </div>";
+                        }
+                }
+            }
+
+
                     ?>
                     
                 </div>
@@ -134,7 +152,7 @@ include('function/function.php');
 
     <script src="jquery-3.2.1.min.js"></script>
     <script src="bootstrap-4.0.0-alpha.6/dist/js/bootstrap.min.js"></script>
-    <script src="bootstrap-4.0.0-alpha.6/tether-1.3.3/dist/js/tether.min.js"></script>
+    <script src="bootstrap-4.0.0-alpha.6/tether-1.3.3/dist/js/tether.min.js></script>
 
 </body>
 

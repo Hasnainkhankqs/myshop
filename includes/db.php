@@ -7,5 +7,5 @@ if(!$conn){
 
 ?>
 <script>
-console.log("database file calling")
+console.log("database file calling");
 </script>

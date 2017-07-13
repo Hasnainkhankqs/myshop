@@ -9,7 +9,7 @@ include('../includes/db.php');
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../bootstrap-4.0.0-alpha.6/dist/css/bootstrap.min.css">
     <title>Document</title>
-    <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=upwobfx7pi1xyioccwdrsxp8478fjiehzhtaupiyc7eb47xw"></script>
+    <!--<script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=upwobfx7pi1xyioccwdrsxp8478fjiehzhtaupiyc7eb47xw"></script>-->
   <script>tinymce.init({ selector:'textarea' });</script>
 </head>
 <body>
@@ -24,7 +24,7 @@ include('../includes/db.php');
     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
             <div class="input-group-addon">Product Brand</div>
             <select class="form-control" name="product_brand">
-            <option>SelectBrand</option>
+            <option>Select Brand</option>
              <?php 
             
                 $query = mysqli_query($conn,"select * from brand");
@@ -44,7 +44,7 @@ include('../includes/db.php');
     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
             <div class="input-group-addon">Product Category</div>
            <select name="product_cat"  class='form-control' >
-               <option>SelectCategory</option>
+               <option>Select Category</option>
              <?php 
             
                 $query = mysqli_query($conn,"select * from categories");
@@ -76,8 +76,8 @@ include('../includes/db.php');
   <div class="input-group mb-2 mr-sm-2 mb-sm-0">
             <div class="input-group-addon">Status</div>
            <select name="status"  class='form-control' >
-               <option>ON</option>
-               <option>OFF</option>
+               <option value='1'>ON</option>
+               <option value='0'>OFF</option>
            
            </select>
   </div>
@@ -110,22 +110,38 @@ if(isset($_POST['insertProduct'])){
     $product_desc          = $_POST['product_desc'];
     $product_keywords      = $_POST['product_keywords'];
     $status                 = $_POST['status'];
-    $file1                 = $_FILES['file1']['name'];
-    $file2                 = $_FILES['file2']['name'];
-    $file3                 = $_FILES['file3']['name'];
+    $file1name                 = $_FILES['file1']['name'];
+    $file2name                 = $_FILES['file2']['name'];
+    $file3name                 = $_FILES['file3']['name'];
     // temporary image name
     $file1tem                 = $_FILES['file1']['tmp_name'];
     $file2tem                 = $_FILES['file2']['tmp_name'];
     $file3tem                 = $_FILES['file3']['tmp_name'];
 
-    if($product_title== ''OR $product_brand==''OR $product_cat==''OR $product_price==''OR $product_desc==''OR $product_keywords==''OR $status == ''OR $file1==''OR $file2==''OR $file3=='' ){
+    if($product_title== ''OR $product_brand==''OR $product_cat==''OR $product_price==''OR $product_keywords == '' OR $product_desc==''OR $product_keywords==''OR $status == ''OR $file1name==''OR $file2name==''OR $file3name=='' ){
       echo '<script>alert("Please fill all the fields")</script>';
       exit();
     }
     else{
-        move_uploaded_file($file1tem,'product_images/$file1');
-        move_uploaded_file($file2tem,'product_images/$file2');
-        move_uploaded_file($file3tem,'product_images/$file3');
+     
+        move_uploaded_file($file1tem,'product_images/'.$file1name);
+        move_uploaded_file($file2tem,'product_images/'.$file2name);
+        move_uploaded_file($file3tem,'product_images/'.$file3name);
+
+
+        $insertProduct = mysqli_query($conn,"INSERT INTO 
+        `products`(`cat_id`, `brand_id`, 
+        `date`, `product_title`, `product_img1`,
+         `product_img2`, `product_img3`, `product_price`,
+          `product_desc`,`product_key`, `status`) 
+          VALUES ('$product_cat','$product_brand',NOW(),'$product_title ','$file1name'
+          ,'$file2name','$file3name','$product_price','$product_desc','$product_keywords','$status')");
+          if($insertProduct){
+            echo "<script>alert('Product Successfully added');</script>";
+          }
+          else{
+            echo "<script>alert('Product did not add');</script>";
+          }
     }
 
   
