@@ -148,7 +148,8 @@ return $ip;
 function cart(){
     global $conn;
     if(isset($_GET['cart'])){
-        $ip_address  = getIp();
+        // $ip_address  = getIp();
+        $ip_address  = 1;
         $product_id  = $_GET['cart'];
         $check_double_click = "select * from cart where ip_addrs = '$ip_address' and p_id = '$product_id'";
         $check_double_click = mysqli_query($conn,$check_double_click);
@@ -167,7 +168,7 @@ function cart(){
 
 // get item quantity
 function itemsum(){
-    if(!isset($_GET['cart'])){
+    if(isset($_GET['cart'])){
         global $conn;
         // $ip_address  = getIp();
         $ip_address_demo  = 1;
@@ -175,14 +176,39 @@ function itemsum(){
         $run = mysqli_query($conn,$query);
         $count  = mysqli_num_rows($run);
     }
-    // else{
-    //      global $conn;
-    //      $ip_address  = getIp();
-    //     $query2 = "select * from cart where ip_addrs = $ip_address";
-    //     $run2 = mysqli_query($conn,$query2);
-    //     $count  = mysqli_num_rows($run2);
-    // }
+    else{
+         global $conn;
+        //  $ip_address  = getIp();
+        $ip_address_demo  = 1;
+        $query2 = "select * from cart where ip_addrs = $ip_address_demo";
+        $run2 = mysqli_query($conn,$query2);
+        $count  = mysqli_num_rows($run2);
+    }
     echo $count;
     
+}
+
+
+// total price
+function totalprice()
+{
+    global $conn;
+    //  $ip_address  = getIp();
+        $ip_address_demo  = 1;
+        $total = 0 ;
+        $sel_price = "select * from cart where ip_addrs = $ip_address";
+        $run_query = ($conn,$sel_price);
+            while($row = mysqli_fetch_array($run_query)){
+               $product_id =  $row['p_id'];
+               $query2 = "select * from product where product_id = $product_id";
+               $run_query2 = ($conn,$query2);
+               while($nestedrow = mysqli_fetch_array($run_query2)){
+                   $product_price = Array($nestedrow['product_price']);
+                   $arraySum = array_sum($product_price);
+                   $total +=  $arraySum;
+
+               }
+            }
+            echo $total;
 }
 ?>

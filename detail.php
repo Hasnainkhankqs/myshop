@@ -36,6 +36,9 @@ include('function/function.php');
 .below{
     margin-top:50px;
 }
+.cartfun{
+    background:lightslategray;
+}
 </style>
 </head>
 
@@ -88,6 +91,11 @@ include('function/function.php');
     </form>
   </div>
 </nav>
+<div class="row cartfun">
+<div class='col-md-12 text-right'>
+<h5>Welcome Guest ! Shoping cart - item <?php itemsum() ?>- price</h5>
+</div> 
+</div>
 <div class="row">
     
         <aside class="col-md-3">

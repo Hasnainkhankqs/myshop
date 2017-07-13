@@ -16,6 +16,11 @@ include('function/function.php');
     <link rel="stylesheet" href="styles/style.css">
 
     <title>My Shop</title>
+        <style>
+.cartfun{
+    background:lightslategray;
+}
+    </style>
 </head>
 
 <body>
@@ -67,6 +72,11 @@ include('function/function.php');
     </form>
   </div>
 </nav>
+<div class="row cartfun">
+<div class='col-md-12 text-right'>
+<h5>Welcome Guest ! Shoping cart - item <?php itemsum() ?>- price</h5>
+</div> 
+</div>
 <div class="row">
     
         <aside class="col-md-3">
