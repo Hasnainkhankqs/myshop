@@ -194,18 +194,20 @@ function totalprice()
 {
     global $conn;
     //  $ip_address  = getIp();
-        $ip_address_demo  = 1;
+        $ip_address_demo = 1;
         $total = 0 ;
-        $sel_price = "select * from cart where ip_addrs = $ip_address";
-        $run_query = ($conn,$sel_price);
+        $sel_price = "select * from cart where ip_addrs = '$ip_address_demo'";
+        $run_query = mysqli_query($conn,$sel_price);
             while($row = mysqli_fetch_array($run_query)){
                $product_id =  $row['p_id'];
-               $query2 = "select * from product where product_id = $product_id";
-               $run_query2 = ($conn,$query2);
+               
+               $query2 = "select * from products where product_id = '$product_id' ";
+               $run_query2 = mysqli_query($conn,$query2);
                while($nestedrow = mysqli_fetch_array($run_query2)){
-                   $product_price = Array($nestedrow['product_price']);
-                   $arraySum = array_sum($product_price);
-                   $total +=  $arraySum;
+                //    $product_price = array($nestedrow['product_price']);
+                //    $arraySum = array_sum($product_price);
+                //    $total +=  $arraySum;
+                   $total += $nestedrow['product_price'];
 
                }
             }

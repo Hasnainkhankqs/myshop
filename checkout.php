@@ -1,5 +1,5 @@
 <?php 
-
+session_start();
 include('includes/db.php');
 include('function/function.php');
 
@@ -111,9 +111,13 @@ include('function/function.php');
                 <div class="row">
 
                     <?php 
-                        viewproduct();
-                        category();
-                        brand();
+        
+                     if(!isset($_SESSION['useremail'])){
+                         include('customer/customer_login.php');
+                     }
+                     else{
+                        include('payment_options.php');
+                     }
                     ?>
                     
                 </div>

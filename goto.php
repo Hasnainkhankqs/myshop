@@ -14,13 +14,45 @@ include('function/function.php');
     <link rel="stylesheet" href="bootstrap-4.0.0-alpha.6/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bootstrap-4.0.0-alpha.6/tether-1.3.3/dist/css/tether.min.css">
     <link rel="stylesheet" href="styles/style.css">
-
     <title>My Shop</title>
     <style>
+
+.figure{
+    padding-top:10px;
+}
+.figure img{
+    height:80%;
+}
+.figure a {
+    margin-top:50px;
+}
+.details{
+    
+    margin-top:50px;
+}
+.details .row{
+    border-top:1px solid gray;
+}
+.below{
+    margin-top:50px;
+}
 .cartfun{
     background:lightslategray;
 }
-    </style>
+.cart_img{
+    width:50%;
+    border:1px solid lightslategray;
+    margin:10px;    
+    
+}
+.strip{
+    background-color:#80cac5;
+    border-bottom:1px dotted black;
+}
+.margin-top{
+    margin-top:30px;
+}
+</style>
 </head>
 
 <body>
@@ -74,7 +106,7 @@ include('function/function.php');
 </nav>
 <div class="row cartfun">
 <div class='col-md-12 text-right'>
-<h5>Welcome Guest ! Shoping cart - item <?php itemsum() ?>- price : $ .<?php totalprice() ;?> -- <a href='goto.php'>Goto Cart</a></h5>
+<h5>Welcome Guest ! Shoping cart - item <?php itemsum() ?>- price : $ .<?php totalprice() ;?>-- <a href='goto.php'>Goto</a></h5>
 </div> 
 </div>
 <div class="row">
@@ -104,20 +136,65 @@ include('function/function.php');
         </div>
         </div>
          </aside>
-    <?php cart(); ?>
+  
     <div class="col-md-9 paddingMarginOff">
         <div class="row">
-            <article class="col-md-12 text-center paddingMarginOff">
-                <div class="row">
-
-                    <?php 
-                        viewproduct();
-                        category();
-                        brand();
-                    ?>
-                    
-                </div>
-            </article>
+            <div class="col-md-3">
+              <span>Remove</span>
+            </div>
+            <div class="col-md-3">
+               <span>Item(s)</span>
+            </div>
+            <div class="col-md-3">
+               <span>Quantity</span>
+            </div>
+            <div class="col-md-3">
+               <span>Total Price</span>
+            </div>
+        </div>
+        <?php 
+        $ip_address_demo = 1;
+         $query = "select * from cart where ip_addrs = '$ip_address_demo'";
+         $run = mysqli_query($conn,$query);
+         while($result = mysqli_fetch_array($run)){
+            $product_id =  $result['p_id'] ;                
+             $query2 = "select * from products where product_id = '$product_id'";
+             $run2 = mysqli_query($conn,$query2);
+              while($result2 = mysqli_fetch_array($run2)){
+               $product_title =  $result2['product_price'] ;            
+               $product_img1 =  $result2['product_img1'] ;            
+        ?>
+        <div class="row strip">
+            <div class="col-md-3">
+                <input type="checkbox" class="form-control margin-top">
+            </div>
+            <div class="col-md-3">
+               <img src="admin_area/product_images/<?php echo $product_img1 ?>" class='img-fluid cart_img img-thumbnail margin-top' alt="">
+            </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control margin-top">
+            </div>
+            <div class="col-md-3">
+               <span class='margin-top'><?php echo '$' . $product_title ?></span>
+            </div>
+        </div>
+        <?php 
+         }
+         }
+         ?>
+         <div class="row">
+            <div class="col-md-3">
+              <span><a href="#">Update Cart</a></span>
+            </div>
+            <div class="col-md-3">
+               <span><a href="#">Continue Shoping</a></span>
+            </div>
+            <div class="col-md-3">
+               <span><a href="checkout.php">Check Out</a></span>
+            </div>
+            <div class="col-md-3">
+               <span>Total Price</span>
+            </div>
         </div>
     </div>
 </div>
@@ -134,7 +211,7 @@ include('function/function.php');
 
     <script src="jquery-3.2.1.min.js"></script>
     <script src="bootstrap-4.0.0-alpha.6/dist/js/bootstrap.min.js"></script>
-    <script src="bootstrap-4.0.0-alpha.6/tether-1.3.3/dist/js/tether.min.js"></script>
+    <script src="bootstrap-4.0.0-alpha.6/tether-1.3.3/dist/js/tether.min.js></script>
 
 </body>
 

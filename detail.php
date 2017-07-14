@@ -93,7 +93,7 @@ include('function/function.php');
 </nav>
 <div class="row cartfun">
 <div class='col-md-12 text-right'>
-<h5>Welcome Guest ! Shoping cart - item <?php itemsum() ?>- price</h5>
+<h5>Welcome Guest ! Shoping cart - item <?php itemsum() ?>- price : $ .<?php totalprice() ;?>-- <a href='goto.php'>Goto Cart</a></h5>
 </div> 
 </div>
 <div class="row">
