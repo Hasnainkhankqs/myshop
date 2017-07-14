@@ -154,6 +154,7 @@ include('function/function.php');
         </div>
         <?php 
         $ip_address_demo = 1;
+        $total = 0;
          $query = "select * from cart where ip_addrs = '$ip_address_demo'";
          $run = mysqli_query($conn,$query);
          while($result = mysqli_fetch_array($run)){
@@ -161,7 +162,8 @@ include('function/function.php');
              $query2 = "select * from products where product_id = '$product_id'";
              $run2 = mysqli_query($conn,$query2);
               while($result2 = mysqli_fetch_array($run2)){
-               $product_title =  $result2['product_price'] ;            
+               $product_price =  $result2['product_price'] ;
+                $total += $product_price;  
                $product_img1 =  $result2['product_img1'] ;            
         ?>
         <div class="row strip">
@@ -175,7 +177,7 @@ include('function/function.php');
                 <input type="number" class="form-control margin-top">
             </div>
             <div class="col-md-3">
-               <span class='margin-top'><?php echo '$' . $product_title ?></span>
+               <span class='margin-top'><?php echo '$' . $product_price ?></span>
             </div>
         </div>
         <?php 
@@ -193,7 +195,7 @@ include('function/function.php');
                <span><a href="checkout.php">Check Out</a></span>
             </div>
             <div class="col-md-3">
-               <span>Total Price</span>
+               <span>Total Price:<?php echo "$ ".$total  ?> </span>
             </div>
         </div>
     </div>
