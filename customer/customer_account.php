@@ -61,9 +61,6 @@ include('function/function.php');
         <a class="nav-link" href="customer_account.php">My Account</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="../register.php">Sign up</a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="../cart.php">Sopping Cart</a>
       </li>
       <li class="nav-item">
@@ -81,18 +78,15 @@ include('function/function.php');
 <h5>Welcome
 <span style='color:lightblue'>
 <?php 
-if(isset($_SESSION['user_email'])){
-    echo $_SESSION['user_email'] .' ! your';
-}
-else{
-    echo  " Guest ! ";
-}
+
+    echo $_SESSION['user_email'] .' ! ';
+
 
 
 ?>
  </span>
  
-  Shoping cart -Total item <?php totalqty() ?>-Total price : $ .<?php totalprice() ;?> -- <a href='cart.php'>Goto Cart</a><b>
+  -Total item <?php totalqty() ?>-Total price : $ .<?php totalprice() ;?> -- <a href='cart.php'>Goto Cart</a><b>
 <?php 
 if(isset($_SESSION['user_email'])){
     ?>
@@ -149,7 +143,9 @@ else
         <div class="row">
             <article class="col-md-12 text-center paddingMarginOff">
                 <div class="row">
-
+                        <div class='bg-primary col-md-12 text-center'>
+                            <h2>Manage Your Account Here</h2>
+                        </div>
                     <?php 
                      
                     ?>

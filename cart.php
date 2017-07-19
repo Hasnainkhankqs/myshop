@@ -89,9 +89,6 @@ include('function/function.php');
         <a class="nav-link" href="customer/customer_account.php">My Account</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="register.php">Sign up</a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="cart.php">Sopping Cart</a>
       </li>
       <li class="nav-item">
