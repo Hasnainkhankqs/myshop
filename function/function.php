@@ -171,16 +171,16 @@ function itemsum(){
     if(isset($_GET['cart'])){
         global $conn;
         // $ip_address  = getIp();
-        $ip_address_demo  = 1;
-        $query = "select * from cart where ip_addrs = $ip_address_demo";
+        $$ip_address  = 1;
+        $query = "select * from cart where ip_addrs = $$ip_address";
         $run = mysqli_query($conn,$query);
         $count  = mysqli_num_rows($run);
     }
     else{
          global $conn;
         //  $ip_address  = getIp();
-        $ip_address_demo  = 1;
-        $query2 = "select * from cart where ip_addrs = $ip_address_demo";
+        $$ip_address  = 1;
+        $query2 = "select * from cart where ip_addrs = $$ip_address";
         $run2 = mysqli_query($conn,$query2);
         $count  = mysqli_num_rows($run2);
     }
@@ -193,9 +193,9 @@ function totalqty()
 {
     global $conn;
           // $ip_address  = getIp();
-        $ip_address_demo  = 1;
+        $$ip_address  = 1;
         $count = 0;
-        $query = "select * from cart where ip_addrs = $ip_address_demo";
+        $query = "select * from cart where ip_addrs = $$ip_address";
         $run = mysqli_query($conn,$query);
         while($runquery = mysqli_fetch_array($run)){
             $count += $runquery['p_qty'];
@@ -210,9 +210,9 @@ function totalprice()
 {
     global $conn;
     //  $ip_address  = getIp();
-        $ip_address_demo = 1;
+        $$ip_address = 1;
         $total = 0 ;
-        $sel_price = "select * from cart where ip_addrs = '$ip_address_demo'";
+        $sel_price = "select * from cart where ip_addrs = '$$ip_address'";
         $run_query = mysqli_query($conn,$sel_price);
             while($row = mysqli_fetch_array($run_query)){
                $product_id =  $row['p_id'];

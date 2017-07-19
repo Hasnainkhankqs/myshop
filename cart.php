@@ -170,8 +170,8 @@ else{
         </div>
         <?php 
         //  $ip_address  = getIp();
-        $ip_address_demo = 1;
-         $viewproduct = "select * from cart where ip_addrs = '$ip_address_demo'";
+        $$ip_address = 1;
+         $viewproduct = "select * from cart where ip_addrs = '$$ip_address'";
          $run = mysqli_query($conn,$viewproduct);
          while($runquery = mysqli_fetch_array($run)){
              $productcart_id =  $runquery['p_id'];
@@ -202,7 +202,7 @@ else{
             <?php 
             
              //  $ip_address  = getIp();
-         $ip_address_demo = 1;
+         $$ip_address = 1;
         if(isset($_POST['update'])){
             $qty_id = $_POST['qty'];
            if($qty_id != '' ){
@@ -262,12 +262,12 @@ if(isset($_POST['continue'])){
 
             <?php 
             //  $ip_address  = getIp();
-        $ip_address_demo = 1;
+        $$ip_address = 1;
            if(isset($_POST['delete'])){
                
                foreach($_POST['remove'] as $remove_id){
               
-            $deletequery = "delete from cart where p_id = '$remove_id' and ip_addrs = '$ip_address_demo'";
+            $deletequery = "delete from cart where p_id = '$remove_id' and ip_addrs = '$$ip_address'";
             $delete_run = mysqli_query($conn,$deletequery);
             if($delete_run){
                 echo "<script>window.open('cart.php','_self')</script>";
