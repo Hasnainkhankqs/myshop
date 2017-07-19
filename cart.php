@@ -1,5 +1,5 @@
 <?php 
-
+session_start();
 include('includes/db.php');
 include('function/function.php');
 
@@ -80,22 +80,22 @@ include('function/function.php');
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">All Products</a>
+        <a class="nav-link" href="all_products.php">All Products</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">My Account</a>
+        <a class="nav-link" href="myaccount.php">My Account</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Sign up</a>
+        <a class="nav-link" href="register.php">Sign up</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Sopping Cart</a>
+        <a class="nav-link" href="cart.php">Sopping Cart</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Contact Us</a>
+        <a class="nav-link" href="contactus.php">Contact Us</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0" method='get' action='result.php' enctype='multipart/form-data'>
@@ -106,7 +106,20 @@ include('function/function.php');
 </nav>
 <div class="row cartfun">
 <div class='col-md-12 text-right'>
-<h5>Welcome Guest ! Shoping cart - item <?php itemsum() ?>- price : $ .<?php totalprice() ;?>-- <a href='goto.php'>Goto</a></h5>
+<h5>Welcome Guest ! Shoping cart -Total item <?php totalqty() ?>-Total price : $ .<?php totalprice() ;?> -- <a href='cart.php'>Goto Cart</a><b>
+<?php 
+if(isset($_SESSION['user_email'])){
+    ?>
+<a href='<?php echo "logout.php" ?>' class='text-warning'><?php echo "Logout" ?></a></b>
+<?php
+}
+else{
+    ?>
+    <a href='<?php echo "checkout.php" ?>' class='text-warning'><?php echo "Login"?></a></b>
+<?php
+}
+?>
+</h5>
 </div> 
 </div>
 <div class="row">
@@ -136,10 +149,10 @@ include('function/function.php');
         </div>
         </div>
          </aside>
-  
     <div class="col-md-9 paddingMarginOff">
+    <form action='cart.php' method='post' multipart='form-data'>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-1">
               <span>Remove</span>
             </div>
             <div class="col-md-3">
@@ -149,60 +162,121 @@ include('function/function.php');
                <span>Quantity</span>
             </div>
             <div class="col-md-3">
+               <span>One</span>
+            </div>
+            <div class="col-md-2">
                <span>Total Price</span>
             </div>
         </div>
         <?php 
+        //  $ip_address  = getIp();
         $ip_address_demo = 1;
-        $total = 0;
-         $query = "select * from cart where ip_addrs = '$ip_address_demo'";
-         $run = mysqli_query($conn,$query);
-         while($result = mysqli_fetch_array($run)){
-            $product_id =  $result['p_id'] ;                
-             $query2 = "select * from products where product_id = '$product_id'";
-             $run2 = mysqli_query($conn,$query2);
-              while($result2 = mysqli_fetch_array($run2)){
-               $product_price =  $result2['product_price'] ;
-                $total += $product_price;  
-               $product_img1 =  $result2['product_img1'] ;            
+         $viewproduct = "select * from cart where ip_addrs = '$ip_address_demo'";
+         $run = mysqli_query($conn,$viewproduct);
+         while($runquery = mysqli_fetch_array($run)){
+             $productcart_id =  $runquery['p_id'];
+             $product_qty =  $runquery['p_qty'];
+             $cart_id    =  $runquery['id'];
+             $persum = 0;
+            $viewproduct2 = "select * from products where product_id = '$productcart_id'";
+            $run2 = mysqli_query($conn,$viewproduct2);
+             while($runquery2 = mysqli_fetch_array($run2)){
+                    $product_id     =  $runquery2['product_id'];   
+                    $product_title  =  $runquery2['product_title'];   
+                    $product_image  =  $runquery2['product_img1'];   
+                    $product_price  =  $runquery2['product_price'];
+                    $persum =  $product_qty* $product_price;
+                   
         ?>
         <div class="row strip">
-            <div class="col-md-3">
-                <input type="checkbox" class="form-control margin-top">
+            <div class="col-md-1">
+                <input type="checkbox" name="remove[]" class="form-control margin-top" value='<?php echo $product_id ?>'>
             </div>
             <div class="col-md-3">
-               <img src="admin_area/product_images/<?php echo $product_img1 ?>" class='img-fluid cart_img img-thumbnail margin-top' alt="">
+               <img src="admin_area/product_images/<?php echo $product_image ?>" class='img-fluid cart_img img-thumbnail margin-top' alt="">
             </div>
+
             <div class="col-md-3">
-                <input type="number" class="form-control margin-top">
+                <input type="number" min='0' name='qty' class="form-control margin-top">
             </div>
+            <?php 
+            
+             //  $ip_address  = getIp();
+         $ip_address_demo = 1;
+        if(isset($_POST['update'])){
+            $qty_id = $_POST['qty'];
+           if($qty_id != '' ){
+               if( $qty_id > 0){
+            $updatequery = "update cart set p_qty = '$qty_id'";
+            $update_run = mysqli_query($conn,$updatequery);
+            if($update_run){
+                echo "<script>window.open('cart.php','_self')</script>";
+                $persum = $product_qty * $product_price;
+            }
+            else{
+                echo "<script>alert('not updated')</script>";
+          }}
+ }}   
+ ?>
             <div class="col-md-3">
                <span class='margin-top'><?php echo '$' . $product_price ?></span>
             </div>
+            <div class="col-md-2">
+               <span class='margin-top'><?php echo '$' . $persum ?></span>
+            </div>
         </div>
         <?php 
-         }
-         }
-         ?>
+        
+             }}
+        
+        ?>
          <div class="row">
-            <div class="col-md-3">
-              <span><a href="#">Update Cart</a></span>
+            <div class="col-md-2">
+              <input type="submit" name='delete' class='btn btn-primary' value='Delete Cart'>
+            </div>
+            <div class="col-md-2">
+              <input type="submit" name='update' class='btn btn-primary' value='Update Cart'>
             </div>
             <div class="col-md-3">
-               <span><a href="#">Continue Shoping</a></span>
+              <input type="submit" name='continue'class='btn btn-primary' value='Continue Shopping'>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                <span><a href="checkout.php">Check Out</a></span>
             </div>
             <div class="col-md-3">
-               <span>Total Price:<?php echo "$ ".$total  ?> </span>
+               <span>Total Price : <?php  echo '$'.totalprice() ?> </span>
             </div>
+<?php 
+
+if(isset($_POST['continue'])){
+    echo "<script>window.open('index.php','_self')</script>";
+}
+
+
+?>
         </div>
     </div>
 </div>
-<div class="row">
-    
-</div>
+
+</form>
+
+            <?php 
+            //  $ip_address  = getIp();
+        $ip_address_demo = 1;
+           if(isset($_POST['delete'])){
+               
+               foreach($_POST['remove'] as $remove_id){
+              
+            $deletequery = "delete from cart where p_id = '$remove_id' and ip_addrs = '$ip_address_demo'";
+            $delete_run = mysqli_query($conn,$deletequery);
+            if($delete_run){
+                echo "<script>window.open('cart.php','_self')</script>";
+            }
+
+}}
+           
+            ?>
+            
 <footer class="text-center" style="background-color:lightslategray;">
    
         This is made by Hasnain Khan kqs
@@ -211,10 +285,12 @@ include('function/function.php');
     </div>
 
 
-    <script src="jquery-3.2.1.min.js"></script>
+     <script src="jquery-3.2.1.min.js"></script>
     <script src="bootstrap-4.0.0-alpha.6/dist/js/bootstrap.min.js"></script>
-    <script src="bootstrap-4.0.0-alpha.6/tether-1.3.3/dist/js/tether.min.js></script>
+    <script src="bootstrap-4.0.0-alpha.6/tether-1.3.3/dist/js/tether.min.js"></script>
+    <script src="js/app.js"></script>
 
 </body>
 
 </html>
+ 

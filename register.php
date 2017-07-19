@@ -46,7 +46,7 @@ include('function/function.php');
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-  <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
         <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
       </li>
@@ -74,10 +74,7 @@ include('function/function.php');
 </nav>
 <div class="row cartfun">
 <div class='col-md-12 text-right'>
-<h5>Welcome Guest ! Shoping cart -Total item <?php totalqty() ?>-Total price : $ .<?php totalprice() ;?> -- <a href='cart.php'>Goto Cart</a>
-
-
-<b>
+<h5>Welcome Guest ! Shoping cart -Total item <?php totalqty() ?>-Total price : $ .<?php totalprice() ;?> -- <a href='cart.php'>Goto Cart</a><b>
 <?php 
 if(isset($_SESSION['user_email'])){
     ?>
@@ -91,6 +88,10 @@ else{
 }
 
 ?>
+
+</h5>
+
+
 
 </h5>
 </div> 
@@ -126,20 +127,122 @@ else{
     <div class="col-md-9 paddingMarginOff">
         <div class="row">
             <article class="col-md-12 text-center paddingMarginOff">
-                <div class="row">
+               <div class="row">
+        <div class="col-md-12">
+    <h1 class='text-center '>Register</h1>
+    <form  action='register.php' method='post' enctype='multipart/form-data'>
+ <div class="form-group row">
+  <label for="example-text-input" class="col-2 col-form-label">Name</label>
+  <div class="col-10">
+    <input class="form-control" type="text" name='name'>
+  </div>
+</div>
+<div class="form-group row">
+  <label for="example-email-input" class="col-2 col-form-label">Email</label>
+  <div class="col-10">
+    <input class="form-control" type="email" name='email'>
+  </div>
+</div>
+<div class="form-group row">
+  <label for="example-search-input" class="col-2 col-form-label">password</label>
+  <div class="col-10">
+    <input class="form-control" type="password" name='password'>
+  </div>
+</div>
+<div class="form-group row">
+  <label for="example-url-input" class="col-2 col-form-label">Country</label>
+  <div class="col-10">
+    <input class="form-control" type="text" name='country'>
+  </div>
+</div>
+<div class="form-group row">
+  <label for="example-tel-input" class="col-2 col-form-label">City</label>
+  <div class="col-10">
+    <input class="form-control" type="text" name='city'>
+  </div>
+</div>
+<div class="form-group row">
+  <label for="example-password-input" class="col-2 col-form-label">Contact</label>
+  <div class="col-10">
+    <input class="form-control" type="text" name='contact'>
+  </div>
+</div>
+<div class="form-group row">
+  <label  class="col-2 col-form-label">Image</label>
+  <div class="col-10">
+    <div class="container">
+<div class="col-md-6">
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <span class="btn btn-warning btn-file">
+                    Browse… <input type="file" id="imgInp" name='img'>
+                </span>
+            </span>
+            <input type="text" class="form-control" readonly>
+        </div>
+        <img id='img-upload'/>
+    </div>
+</div>
+</div>
 
-                    <?php 
-        
-                     if(!isset($_SESSION['user_email'])){
+  </div>
+</div>
 
-                         include('customer/customer_login.php');
-                     }
-                     else{
-                        include('payment_options.php');
-                     }
-                    ?>
-                    
-                </div>
+
+
+<div class="form-group row">
+  <label for="example-number-input" class="col-2 col-form-label">Address</label>
+  <div class="col-10">
+    <textarea class="form-control"  name='address'></textarea>
+  </div>
+</div>
+<input type="submit" name='submit'  class="form-control btn btn-success">         
+</form>
+<?php 
+include('includes/db.php');
+if(isset($_POST['submit'])){
+  $name = $_POST['name'];
+  $email = $_POST['email'];
+  $password = $_POST['password'];
+  $country = $_POST['country'];
+  $city = $_POST['city'];
+  $contact = $_POST['contact'];
+  $address = $_POST['address'];
+  $image = $_FILES['img']['name'];
+  $temp_img = $_FILES['img']['tmp_name'];
+move_uploaded_file($temp_img,'customer/img/'.$image);
+ // $ip_address  = getIp();
+        $ip_address  = 1;
+  $inserquery = "INSERT INTO `customers`
+  (`customer_name`, `customer_email`,
+   `customer_pass`, `customer_country`, `customer_city`,
+    `customer_contact`, `customer_address`,`customer_img`,`customer_ip`) VALUES ('$name',
+    '$email','$password','$country','$city','$contact','$address','$image','$ip_address')";
+    $runinsert = mysqli_query($conn,$inserquery);
+    $cartquery = "select * from cart where ip_addrs = '$ip_address'";
+    $cartview = mysqli_query($conn,$cartquery);
+    $num  = mysqli_num_rows($cartview);
+    if($num > 0){
+      $_SESSION['user_email'] = $email;
+      echo "<script>window.open('checkout.php','_self')</script>";
+    }
+    else{
+      $_SESSION['user_email'] = $email;
+      echo "<script>window.open('index.php','_self')</script>";
+    }
+
+}
+
+
+
+?>
+<a href="checkout.php">Login Here</a>
+        </div>
+    </div>
+
+
+
             </article>
         </div>
     </div>
@@ -155,7 +258,7 @@ else{
     </div>
 
 
-    <script src="jquery-3.2.1.min.js"></script>
+      <script src="jquery-3.2.1.min.js"></script>
     <script src="bootstrap-4.0.0-alpha.6/dist/js/bootstrap.min.js"></script>
     <script src="bootstrap-4.0.0-alpha.6/tether-1.3.3/dist/js/tether.min.js"></script>
     <script src="js/app.js"></script>
@@ -163,3 +266,4 @@ else{
 </body>
 
 </html>
+    

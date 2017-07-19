@@ -1,5 +1,5 @@
 <?php 
-
+session_start();
 include('includes/db.php');
 include('function/function.php');
 
@@ -48,22 +48,22 @@ include('function/function.php');
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">All Products</a>
+        <a class="nav-link" href="all_products.php">All Products</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">My Account</a>
+        <a class="nav-link" href="myaccount.php">My Account</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Sign up</a>
+        <a class="nav-link" href="register.php">Sign up</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Sopping Cart</a>
+        <a class="nav-link" href="cart.php">Sopping Cart</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Contact Us</a>
+        <a class="nav-link" href="contactus.php">Contact Us</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0" method='get' action='result.php' enctype='multipart/form-data'>
@@ -74,7 +74,37 @@ include('function/function.php');
 </nav>
 <div class="row cartfun">
 <div class='col-md-12 text-right'>
-<h5>Welcome Guest ! Shoping cart - item <?php itemsum() ?>- price : $ .<?php totalprice() ;?> -- <a href='goto.php'>Goto Cart</a></h5>
+<h5>Welcome
+<span style='color:lightblue'>
+<?php 
+if(isset($_SESSION['user_email'])){
+    echo $_SESSION['user_email'] .' ! your';
+}
+else{
+    echo  " Guest ! ";
+}
+
+
+?>
+ </span>
+ 
+  Shoping cart -Total item <?php totalqty() ?>-Total price : $ .<?php totalprice() ;?> -- <a href='cart.php'>Goto Cart</a><b>
+<?php 
+if(isset($_SESSION['user_email'])){
+    ?>
+<a href='<?php echo "logout.php" ?>' class='text-warning'><?php echo "Logout" ?></a></b>
+<?php
+}
+else
+{
+    ?>
+    <a href='<?php echo "checkout.php" ?>' class='text-warning'><?php echo "Login"?></a></b>
+<?php
+}
+?>
+
+
+</h5>
 </div> 
 </div>
 <div class="row">
@@ -135,6 +165,7 @@ include('function/function.php');
     <script src="jquery-3.2.1.min.js"></script>
     <script src="bootstrap-4.0.0-alpha.6/dist/js/bootstrap.min.js"></script>
     <script src="bootstrap-4.0.0-alpha.6/tether-1.3.3/dist/js/tether.min.js"></script>
+    <script src="js/app.js"></script>
 
 </body>
 

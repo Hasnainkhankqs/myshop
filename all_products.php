@@ -46,7 +46,7 @@ include('function/function.php');
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-  <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
         <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
       </li>
@@ -74,10 +74,7 @@ include('function/function.php');
 </nav>
 <div class="row cartfun">
 <div class='col-md-12 text-right'>
-<h5>Welcome Guest ! Shoping cart -Total item <?php totalqty() ?>-Total price : $ .<?php totalprice() ;?> -- <a href='cart.php'>Goto Cart</a>
-
-
-<b>
+<h5>Welcome Guest ! Shoping cart -Total item <?php totalqty() ?>-Total price : $ .<?php totalprice() ;?> -- <a href='cart.php'>Goto Cart</a><b>
 <?php 
 if(isset($_SESSION['user_email'])){
     ?>
@@ -91,6 +88,10 @@ else{
 }
 
 ?>
+
+
+
+
 
 </h5>
 </div> 
@@ -129,14 +130,36 @@ else{
                 <div class="row">
 
                     <?php 
-        
-                     if(!isset($_SESSION['user_email'])){
+                      
+   
+    if(!isset($_GET["cat_id"])){
+        if(!isset($_GET["brand_id"])){
 
-                         include('customer/customer_login.php');
-                     }
-                     else{
-                        include('payment_options.php');
-                     }
+    $displayProduct = "SELECT * FROM `products`";
+    $run = mysqli_query($conn,$displayProduct);
+                       
+                            while($row = mysqli_fetch_array($run)){
+                                $product_id = $row['product_id'];
+                                $product_title = $row['product_title'];
+                                $product_img1 = $row['product_img1'];
+                                $product_price = $row['product_price'];
+                            echo "<div class='col-md-3 product_thumbnail'>
+                        <figure class='figure'>
+                            <figcaption class='figure-caption'> $product_title </figcaption>
+                                <img src='admin_area/product_images/$product_img1' class='figure-img img-fluid  img-thumbnail' alt='A generic square placeholder image with rounded corners in a figure.'>
+                                <div>Price:<span>$ $product_price</span></div>
+                                <div>
+                                    <a href='detail.php?detail=$product_id' class='btn btn-primary btn-sm' >detail</a>
+                                    <a href='index.php?cart=$product_id' class='btn btn-success btn-sm' >Add Card</a>
+                                </div>
+                        </figure>
+                    </div>";
+                        
+                }
+                    
+        }
+    }
+
                     ?>
                     
                 </div>

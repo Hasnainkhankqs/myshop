@@ -158,7 +158,7 @@ function cart(){
              window.open('index.php','_self')</script>";
         }
         else{
-            $insert_data = "insert into cart (p_id,ip_addrs) VALUES ('$product_id','$ip_address')";
+            $insert_data = "insert into cart (p_id,ip_addrs,p_qty) VALUES ('$product_id','$ip_address',1)";
             $insert_data = mysqli_query($conn,$insert_data);
             echo "<script>window.open('index.php','_self')</script>";
         }
@@ -189,6 +189,22 @@ function itemsum(){
 }
 
 
+function totalqty()
+{
+    global $conn;
+          // $ip_address  = getIp();
+        $ip_address_demo  = 1;
+        $count = 0;
+        $query = "select * from cart where ip_addrs = $ip_address_demo";
+        $run = mysqli_query($conn,$query);
+        while($runquery = mysqli_fetch_array($run)){
+            $count += $runquery['p_qty'];
+        }
+
+    echo $count;
+    
+}
+
 // total price
 function totalprice()
 {
@@ -200,14 +216,16 @@ function totalprice()
         $run_query = mysqli_query($conn,$sel_price);
             while($row = mysqli_fetch_array($run_query)){
                $product_id =  $row['p_id'];
-               
+               $product_qty =  $row['p_qty'];
+               $persum = 0;
                $query2 = "select * from products where product_id = '$product_id' ";
                $run_query2 = mysqli_query($conn,$query2);
                while($nestedrow = mysqli_fetch_array($run_query2)){
                 //    $product_price = array($nestedrow['product_price']);
                 //    $arraySum = array_sum($product_price);
                 //    $total +=  $arraySum;
-                   $total += $nestedrow['product_price'];
+                    $persum = $product_qty*$nestedrow['product_price'];
+                   $total += $persum;
 
                }
             }
