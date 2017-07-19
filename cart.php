@@ -86,7 +86,7 @@ include('function/function.php');
         <a class="nav-link" href="all_products.php">All Products</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="myaccount.php">My Account</a>
+        <a class="nav-link" href="customer/customer_account.php">My Account</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="register.php">Sign up</a>
@@ -106,7 +106,26 @@ include('function/function.php');
 </nav>
 <div class="row cartfun">
 <div class='col-md-12 text-right'>
-<h5>Welcome Guest ! Shoping cart -Total item <?php totalqty() ?>-Total price : $ .<?php totalprice() ;?> -- <a href='cart.php'>Goto Cart</a><b>
+<h5>Welcome
+<span style='color:lightblue'>
+<?php 
+if(isset($_SESSION['user_email'])){
+    echo $_SESSION['user_email'] .' ! your';
+}
+else{
+    echo  " Guest ! ";
+}
+
+
+?>
+ </span>
+ 
+
+
+
+
+
+Shoping cart -Total item <?php totalqty() ?>-Total price : $ .<?php totalprice() ;?> -- <a href='cart.php'>Goto Cart</a><b>
 <?php 
 if(isset($_SESSION['user_email'])){
     ?>
@@ -170,8 +189,8 @@ else{
         </div>
         <?php 
         //  $ip_address  = getIp();
-        $$ip_address = 1;
-         $viewproduct = "select * from cart where ip_addrs = '$$ip_address'";
+        $ip_address = 1;
+         $viewproduct = "select * from cart where ip_addrs = '$ip_address'";
          $run = mysqli_query($conn,$viewproduct);
          while($runquery = mysqli_fetch_array($run)){
              $productcart_id =  $runquery['p_id'];
@@ -202,12 +221,12 @@ else{
             <?php 
             
              //  $ip_address  = getIp();
-         $$ip_address = 1;
+         $ip_address = 1;
         if(isset($_POST['update'])){
             $qty_id = $_POST['qty'];
            if($qty_id != '' ){
                if( $qty_id > 0){
-            $updatequery = "update cart set p_qty = '$qty_id'";
+            $updatequery = "update cart set p_qty = '$qty_id' where ip_addrs = '$ip_address'";
             $update_run = mysqli_query($conn,$updatequery);
             if($update_run){
                 echo "<script>window.open('cart.php','_self')</script>";
@@ -262,12 +281,12 @@ if(isset($_POST['continue'])){
 
             <?php 
             //  $ip_address  = getIp();
-        $$ip_address = 1;
+        $ip_address = 1;
            if(isset($_POST['delete'])){
                
                foreach($_POST['remove'] as $remove_id){
               
-            $deletequery = "delete from cart where p_id = '$remove_id' and ip_addrs = '$$ip_address'";
+            $deletequery = "delete from cart where p_id = '$remove_id' and ip_addrs = '$ip_address'";
             $delete_run = mysqli_query($conn,$deletequery);
             if($delete_run){
                 echo "<script>window.open('cart.php','_self')</script>";

@@ -54,7 +54,7 @@ include('function/function.php');
         <a class="nav-link" href="all_products.php">All Products</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="myaccount.php">My Account</a>
+        <a class="nav-link" href="customer/customer_account.php">My Account</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="register.php">Sign up</a>
@@ -74,7 +74,24 @@ include('function/function.php');
 </nav>
 <div class="row cartfun">
 <div class='col-md-12 text-right'>
-<h5>Welcome Guest ! Shoping cart -Total item <?php totalqty() ?>-Total price : $ .<?php totalprice() ;?> -- <a href='cart.php'>Goto Cart</a><b>
+<h5>Welcome
+<span style='color:lightblue'>
+<?php 
+if(isset($_SESSION['user_email'])){
+    echo $_SESSION['user_email'] .' ! your';
+}
+else{
+    echo  " Guest ! ";
+}
+
+
+?>
+ </span>
+ 
+
+
+
+Shoping cart -Total item <?php totalqty() ?>-Total price : $ .<?php totalprice() ;?> -- <a href='cart.php'>Goto Cart</a><b>
 <?php 
 if(isset($_SESSION['user_email'])){
     ?>

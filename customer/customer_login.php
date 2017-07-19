@@ -46,7 +46,7 @@ if(isset($_POST['login'])){
  }
  if($countaccount == 1 AND $countcart == 0){
    $_SESSION['user_email'] = $user_email;
-   echo "<script>window.open('customer/myaccount.php','_self')</script>";
+   echo "<script>window.open('customer/customer_account.php','_self')</script>";
  }
  else{
    $_SESSION['user_email'] = $user_email;
