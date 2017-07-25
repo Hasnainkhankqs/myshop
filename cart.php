@@ -216,23 +216,24 @@ else{
                 <input type="number" min='0' name='qty' class="form-control margin-top">
             </div>
             <?php 
-            
-             //  $ip_address  = getIp();
+                //  $ip_address  = getIp();
          $ip_address = 1;
         if(isset($_POST['update'])){
             $qty_id = $_POST['qty'];
-           if($qty_id != '' ){
+           if($qty_id !== '' ){
                if( $qty_id > 0){
             $updatequery = "update cart set p_qty = '$qty_id' where ip_addrs = '$ip_address'";
             $update_run = mysqli_query($conn,$updatequery);
             if($update_run){
-                echo "<script>window.open('cart.php','_self')</script>";
+                echo "<script>alert('updated')</script>";
+                // echo "<script>window.open('cart.php','_self')</script>";
                 $persum = $product_qty * $product_price;
             }
             else{
                 echo "<script>alert('not updated')</script>";
           }}
  }}   
+         
  ?>
             <div class="col-md-3">
                <span class='margin-top'><?php echo '$' . $product_price ?></span>
@@ -276,8 +277,51 @@ if(isset($_POST['continue'])){
 
 </form>
 
-            <?php 
-            //  $ip_address  = getIp();
+
+
+
+
+
+
+
+
+
+
+
+
+<?php 
+    $qty_id = 1;
+    $ip_address = 1;
+    $p_qty = 7;
+    if($qty_id == 1){
+        $cartget = "select * from cart where ip_addrs = '$ip_address' && p_qty = '$qty_id'";
+        $runcart = mysqli_query($conn,$cartget);
+        if($runcart){
+            $fetchid = mysqli_fetch_array($runcart);
+            echo $fetchid['id'];
+            echo "<script>console.log('query working')</script>";
+                }
+        else{
+            echo "<script>console.log('query not working')</script>";  
+                }}
+
+
+
+?>
+             
+             
+             
+             
+
+
+
+             
+             
+             
+             <?php
+            
+            
+             $ip_address  = getIp();
         $ip_address = 1;
            if(isset($_POST['delete'])){
                
