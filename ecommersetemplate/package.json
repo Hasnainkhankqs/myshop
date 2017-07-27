@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "scss": "node-sass --watch node_modules/bootstrap/scss -o src/css"
+    "scss": "node-sass --watch node_modules/bootstrap/scss -o src/css",
+    "scss2": "node-sass --watch src/sass -o src/css"
   },
   "keywords": [
     "Ecommerse"

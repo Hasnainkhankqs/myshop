@@ -10,16 +10,6 @@ html {
 *::after {
   box-sizing: inherit; }
 
-body {
-  background: green; }
-
-.headerColor {
-  background: #061c31; }
-  .headerColor img {
-    height: 50px; }
-  .headerColor div {
-    color: #fff; }
-
 .container {
   position: relative;
   margin-left: auto;

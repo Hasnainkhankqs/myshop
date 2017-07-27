@@ -16,11 +16,11 @@
 
     <div class="container-fluid">
         <header>
-            <div class="row headerColor">
-                <div class="col-5" ><img src="assets/img/img1.jpg" alt="Logo Image" class="img-fluid"></div>
-                <div class="col">hasnain</div>
-                <div class="col">ali</div>
-                <div class="col">afzal</div>
+            <div class="row">
+                <div class="col-md-5"></div>
+                <div class="col-md-2">Login</div>
+                <div class="col-md-2">Register</div>
+                <div class="col-md-2"> <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart</div>
             </div>
         </header>
         <nav>
